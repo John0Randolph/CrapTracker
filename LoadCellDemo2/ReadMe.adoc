@@ -4,9 +4,11 @@
 :Revision: version#
 :License: Public Domain
 
-= Project: {Project}
+= Project: {CrapTracker}
 
 Describe your project
+
+An arduino setup for measuring the weight of offloads
 
 == Step 1: Installation
 Please describe the steps to install this project.
