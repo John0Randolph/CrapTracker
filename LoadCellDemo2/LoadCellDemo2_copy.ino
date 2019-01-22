@@ -21,7 +21,6 @@ float calibrateVal;
  * Write code that takes a difference and records weight
  */
 
-
 void setup() {
   Serial.begin(9600);
   Serial.println("After readings begin, place known weight on scale");
@@ -71,7 +70,6 @@ void loop() {
   }
 
 }
-
 
 /**
  * TODO:
