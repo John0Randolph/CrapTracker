@@ -52,14 +52,17 @@ void loop() {
   count = count + 1;
   
   // Use only one of these
-  //val = ((count-1)/count) * val    +  (1/count) * cell.read(); // take long term average
-  //val = (0.5 * val    +   0.5 * scale.read()); // take recent average
+  //val = ((count-1)/count) * val +  (1/count) * cell.read(); // take long term average
+  //val = (0.5 * val + 0.5 * scale.read()); // take recent average
   val = scale.read(); // most recent reading
   
-  Serial.println("Printing val");
+  Serial.println("The reading is:");
   
-  Serial.println(val - calibrateVal);
+  Serial.println(val - calibrateVal); // this is the calibrated val
+  // divide by 600000 to get value in pounds
   
+  // recalibrate if the letter c is entered
+  // will delay reading by about half a second
   if(Serial.available())
   {
     char input = Serial.read();
