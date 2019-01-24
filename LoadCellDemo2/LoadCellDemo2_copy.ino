@@ -5,9 +5,16 @@
 
 HX711 scale(DOUT, CLK);
 
+// float for current value
+float currentVal;
+// float for time
+int time;
 // float of how much the scale is naturally off by
 float calibrateVal;
-// array for storing recent data over time
+// array for storing recent data over last 100 raw values
+float lastHundredRaw[100];
+// counter for last 100 raw values to tell which one it is
+int rawCounter;
 // array for averages of data over longer amount of time
 
 // note: a pound is about 600000-605000
@@ -21,12 +28,21 @@ float calibrateVal;
  * Write code that takes a difference and records weight
  */
 
+/**
+ * setup method
+ * prints out message and resets values
+ */
 void setup() {
   Serial.begin(9600);
   Serial.println("After readings begin, place known weight on scale");
+  resetTime();
+  resetStoredValues();
   calibrate();
 }
 
+/**
+ * method to zero the scale
+ */
 void calibrate() {
   Serial.println("calibrating...");
   calibrateVal = 0;
@@ -37,8 +53,23 @@ void calibrate() {
   Serial.println("calibrated");
 }
 
-long val = 0;
-float count = 0;
+/**
+ * method to reset all values of data stored
+ */
+void resetStoredValues() {
+  for(int i = 0; i < 100; i++) {
+    lastHundredRaw[i] = -1;
+  }
+  rawCounter = 0;
+}
+
+/**
+ * method to reset time
+ * set to 1 to avoid div by 0 errors
+ */
+void resetTime() {
+  time = 1;
+}
 
 /**
  * TODO:
@@ -47,18 +78,29 @@ float count = 0;
  * - calls concatData
  */
 
-void loop() {
-  count = count + 1;
-  
+/**
+ * loop:
+ * get the currentVal using one of three methods
+ * print value
+ * save the value
+ * calibrate if 'c' is entered
+ * increment the time & raw counter
+ */
+void loop() {  
   // Use only one of these
-  //val = ((count-1)/count) * val +  (1/count) * cell.read(); // take long term average
-  //val = (0.5 * val + 0.5 * scale.read()); // take recent average
-  val = scale.read(); // most recent reading
+  //currentVal = ((time-1)/time) * currentVal +  (1/time) * cell.read(); // take long term average
+  //currentVal = (0.5 * currentVal + 0.5 * scale.read()); // take recent average
+  currentVal = scale.read(); // most recent reading
+
+  currentVal = currentVal - calibrateVal;
   
   Serial.println("The reading is:");
   
-  Serial.println(val - calibrateVal); // this is the calibrated val
-  // divide by 600000 to get value in pounds
+  Serial.println(currentVal); // this is the calibrated val
+  // divide by 600000 to get value in lbs
+
+  // save the value to rawData array
+  lastHundredRaw[rawCounter] = currentVal;
   
   // recalibrate if the letter c is entered
   // will delay reading by about half a second
@@ -68,7 +110,8 @@ void loop() {
     if(input == 'c')
       calibrate();
   }
-
+  time++;
+  rawCounter++;
 }
 
 /**
