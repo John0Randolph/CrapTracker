@@ -16,6 +16,9 @@ float lastHundredRaw[100];
 // counter for last 100 raw values to tell which one it is
 int rawCounter;
 // array for averages of data over longer amount of time
+float lastHundredAvg[100];
+// counter for last 100 averages to tell which one it is
+int avgCounter;
 
 // note: a pound is about 600000-605000
 // verfied with 2lbs, 2.5lbs
@@ -59,16 +62,17 @@ void calibrate() {
 void resetStoredValues() {
   for(int i = 0; i < 100; i++) {
     lastHundredRaw[i] = -1;
+    lastHundredAvg[i] = -1;
   }
   rawCounter = 0;
 }
 
 /**
  * method to reset time
- * set to 1 to avoid div by 0 errors
+ * can be set to 1 to avoid div by 0 errors
  */
 void resetTime() {
-  time = 1;
+  time = 0;
 }
 
 /**
@@ -111,14 +115,29 @@ void loop() {
       calibrate();
   }
   time++;
+  if (time == 100) {
+    averageData();
+  }
   rawCounter++;
 }
 
 /**
- * TODO:
  * function that concatenates data so that we have averages over time
  * this data will be used to determine longer time weight changes
  */
+void averageData() {
+  time = 0;
+  int avg = 0;
+  for (int i = 0; i < 100; i++) {
+    avg += lastHundredRaw[i];
+  }
+  avg = avg / 100;
+  lastHundredAvg[avgCounter] = avg;
+  avgCounter++;
+  if (avgCounter = 100) {
+    avgCounter = 0;
+  }
+}
 
 /**
  * TODO:
