@@ -1,3 +1,14 @@
+/**
+ * Next steps:
+ * Go to BDW, design better scale
+ * Calibrate for pounds / grams
+ * Write code that takes a difference and records weight
+ *
+ * note: a pound is about 600000-605000
+ * verfied with 2lbs, 2.5lbs
+ * seems to fritz out greater than that (i.e. 5 pounds was off)
+ */
+
 #include "HX711.h"
 
 #define DOUT  3
@@ -19,17 +30,6 @@ int rawCounter;
 float lastHundredAvg[100];
 // counter for last 100 averages to tell which one it is
 int avgCounter;
-
-// note: a pound is about 600000-605000
-// verfied with 2lbs, 2.5lbs
-// seems to fritz out greater than that (i.e. 5 pounds was off)
-
-/**
- * Next steps:
- * Go to BDW, design better scale
- * Calibrate for pounds / grams
- * Write code that takes a difference and records weight
- */
 
 /**
  * setup method
@@ -76,14 +76,7 @@ void resetTime() {
 }
 
 /**
- * TODO:
- * add functionality that
- * - saves recent data to the array
- * - calls concatData
- */
-
-/**
- * loop:
+ * loop method
  * get the currentVal using one of three methods
  * print value
  * save the value
@@ -113,6 +106,12 @@ void loop() {
     char input = Serial.read();
     if(input == 'c')
       calibrate();
+    if(input == '1')
+      Serial.println("time is: " + time);
+    if(input == '2')
+      printLastHundredRaw();
+    if(input == '3')
+      printLastHundredAvg();
   }
   time++;
   if (time == 100) {
@@ -136,6 +135,26 @@ void averageData() {
   avgCounter++;
   if (avgCounter = 100) {
     avgCounter = 0;
+  }
+}
+
+/**
+ * prints the last 100 readings
+ */
+void printLastHundredRaw() {
+  Serial.println("The last hundred values are as follows");
+  for (int i = 0; i < 100; i++) {
+    Serial.println(lastHundredRaw[i]);
+  }
+}
+
+/**
+ * prints the last 100 averages
+ */
+void printLastHundredAvg() {
+  Serial.println("The last hundred averages are as follows");
+  for (int i = 0; i < 100; i++) {
+    Serial.println(lastHundredAvg[i]);
   }
 }
 
