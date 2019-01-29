@@ -20,6 +20,8 @@ Eventually, this will be prepackaged as one product
 == Step 2: Install the code
 
 Upload "LoadCellDemo2_copy.ino" to the board
+Consider using Arduino Create online:
+https://create.arduino.cc/editor/
 
 == Step 3: Run the code
 
