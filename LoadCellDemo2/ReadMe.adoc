@@ -1,56 +1,58 @@
 :Author: john_randolph
 :Email: john_randolph@brown.edu
-:Date: 04/08/2018
-:Revision: version#
+:Date: 01/29/2019
+:Revision: version alpha
 :License: Public Domain
 
 = Project: {CrapTracker}
 
 Describe your project
 
-An arduino setup for measuring the weight of offloads
+An arduino setup for measuring weight differences
 
-== Step 1: Installation
-Please describe the steps to install this project.
+== Step 1: Assemble the circuit
 
-For example:
+Assemble the circuit following the breakout guide in this link:
+https://learn.sparkfun.com/tutorials/load-cell-amplifier-hx711-breakout-hookup-guide
 
-1. Open this file
-2. Edit as you like
-3. Release to the World!
+Eventually, this will be prepackaged as one product
 
-== Step 2: Assemble the circuit
+== Step 2: Install the code
 
-Assemble the circuit following the diagram layout.png attached to the sketch
+Upload "LoadCellDemo2_copy.ino" to the board
 
-== Step 3: Load the code
+== Step 3: Run the code
 
-Upload the code contained in this sketch on to your board
+Run the code and observe the weight measurements.
+The Serial will print a raw weight value several times every second
+Commands:
+'c': tares the scale
+'1': prints the current time
+'2': prints the last 100 raw weight values
+'3': prints the last hundred average weights, each being an average
+	 of a hundred raw values
 
 === Folder structure
 
 ....
- sketch123                => Arduino sketch folder
-  ├── sketch123.ino       => main Arduino file
-  ├── schematics.png      => (optional) an image of the required schematics
-  ├── layout.png          => (optional) an image of the layout
-  └── ReadMe.adoc         => this file
+ CrapTracker                	=> Arduino sketch folder
+  ├── LoadCellDemo_copy.ino     => main Arduino file
+  └── ReadMe.adoc         		=> this file
 ....
 
 === License
 This project is released under a {License} License.
 
 === Contributing
-To contribute to this project please contact john_randolph <john_randolph@brown.edu>
+To contribute to this project please contact John Randolph <john_randolph@brown.edu>
 
-=== BOM
-Add the bill of the materials you need for this project.
+=== Bill of Materials needed for the project
 
 |===
-| ID | Part name      | Part number | Quantity
-| R1 | 10k Resistor   | 1234-abcd   | 10       
-| L1 | Red LED        | 2345-asdf   | 5        
-| A1 | Arduino Zero   | ABX00066    | 1        
+| ID | Part name          | Part number | Quantity
+| -- | Mini load cell     | TAL221      | 1   
+| -- | Load Cell Aplifier | HX711       | 1    
+| -- | Arduino Uno        | A000066     | 1        
 |===
 
 
